@@ -30,7 +30,6 @@ public class ArrayManager {
 
     public void init() {
         int i = 0;
-        int tmp;
         for (i = 0; i <size; i++) {
             intArray[i] = i+1;
         }
