@@ -19,7 +19,7 @@ public class CircleDrawerPanel extends SortingDrawerPanel {
         float sizeRatio;
         int diag = getWidth() * getWidth() + getHeight() * getHeight();
         int r = Math.min(getHeight(), getWidth()) / 2;
-        float strokeVal = (float) ah.size / diag;
+        float strokeVal = (float) r / ah.size;
         if (strokeVal < 1) strokeVal = 1;
         int x, y;
         for(int i = 0; i < Constants.ARRAY_SIZE; i++) {

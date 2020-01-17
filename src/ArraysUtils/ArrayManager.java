@@ -1,9 +1,6 @@
 package ArraysUtils;
 
-import ArraysUtils.Sorts.BubbleSort;
-import ArraysUtils.Sorts.InsertionSort;
-import ArraysUtils.Sorts.SelectionSort;
-import ArraysUtils.Sorts.Sorter;
+import ArraysUtils.Sorts.*;
 import Utils.Constants;
 import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
@@ -31,18 +28,23 @@ public class ArrayManager {
         min = 1;
         arrayAccesses = 0;
         currentAlgoName = "";
-        launchAllSorts();
+        for (int i = 0; i < size; i++) {
+            intArray[i] = new ArrayValue(i, getColorFromInt(i));
+        }
     }
 
     public void launchAllSorts() {
-        int i = 0;
-        for (i = 0; i < size; i++) {
-            intArray[i] = new ArrayValue(i, getColorFromInt(i));
-        }
+
 
         Runnable r = () -> {
+
             System.out.println("Shuffling array . . .");
             currentAlgoName = "Shuffling";
+            shuffle();
+            System.out.println("Starting Counting sort . . .");
+            currentAlgoName = "Counting sort";
+            new CountingSort().sort(intArray);
+            System.out.println("Shuffling . . .");
             shuffle();
             System.out.println("Starting insertion sort . . .");
             currentAlgoName = "Insertion sort";

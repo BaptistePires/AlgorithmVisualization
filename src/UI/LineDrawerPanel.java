@@ -14,22 +14,23 @@ public class LineDrawerPanel extends SortingDrawerPanel {
     //private int ARR_SIZE = Math.max(MyWindow.WINDOW_HEIGHT, MyWindow.WINDOW_WIDTH);
 //    private int ARR_SIZE = 800;
 
-
+    @Override
     void drawArray(Graphics2D g2d) {
-        float stroke = (float) MyWindow.WINDOW_WIDTH / (float) Constants.ARRAY_SIZE;
-        if (stroke <= 0) stroke = 1;
-        Stroke stroke3 = new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
-        g2d.setStroke(stroke3);
+        float stroke = (float) getWidth() / (float) ah.size;
+        if (stroke < 1) stroke = 1;
+//        Stroke stroke3 = new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
+        g2d.setStroke(new BasicStroke(stroke));
         int x1, y1, x2, y2;
-        for (int i = 0; i < Constants.ARRAY_SIZE; i++) {
-            x1 = Math.min(i * (int) stroke, MyWindow.WINDOW_WIDTH);
-            y1 = MyWindow.WINDOW_HEIGHT;
-            x2 = Math.min(i * (int) stroke, MyWindow.WINDOW_WIDTH);
+        for (int i = 0; i < ah.size; i++) {
+            x1 = (i * (int)stroke) + (int)stroke ;
+            y1 = getHeight();
             float hRatio = (float) ah.intArray[i].getValue() / (float) ah.max;
-            y2 = MyWindow.WINDOW_HEIGHT - (int) (MyWindow.WINDOW_HEIGHT * hRatio);
+            y2 = getHeight() - (int) (getHeight()* hRatio);
             g2d.setColor(ah.intArray[i].getColor());
-            g2d.drawLine(x1, y1, x2, y2);
+            g2d.drawLine(x1, y1, x1, y2);
         }
+
+
     }
 
 

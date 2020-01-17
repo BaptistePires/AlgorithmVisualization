@@ -2,7 +2,7 @@ package ArraysUtils;
 
 import java.awt.*;
 
-public class ArrayValue {
+public class ArrayValue implements Comparable<ArrayValue>{
 
     private int value;
     private Color color;
@@ -26,6 +26,13 @@ public class ArrayValue {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    @Override
+    public int compareTo(ArrayValue o) {
+        if(getValue() > o.getValue()) return 1;
+        else if(getValue() < o.getValue()) return -1;
+        else return 0;
     }
 }
 

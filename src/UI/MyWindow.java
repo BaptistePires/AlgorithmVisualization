@@ -6,7 +6,7 @@ import java.awt.*;
 public class MyWindow extends JFrame {
     public final static String TITLE = "AlgorithmVisualization";
 
-    public final static int WINDOW_WIDTH = 1200;
+    public final static int WINDOW_WIDTH = 800;
     public final static int WINDOW_HEIGHT = 800;
 
     private BasePanel drawer;

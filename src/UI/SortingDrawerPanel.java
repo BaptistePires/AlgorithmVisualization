@@ -20,6 +20,7 @@ public class SortingDrawerPanel extends BasePanel {
         fpsCounter = 0;
         fpsCounterBuffer = 0;
         panelFont = new Font("Serrif", Font.BOLD, 15);
+        ah.launchAllSorts();
     }
 
     @Override
@@ -31,7 +32,7 @@ public class SortingDrawerPanel extends BasePanel {
         updateFPSCounter();
     }
 
-    void updateFPSCounter() {
+    private void updateFPSCounter() {
         double now = System.currentTimeMillis();
         fpsCounter++;
         if(now - lastCounterReset >= 1000d){
@@ -41,7 +42,7 @@ public class SortingDrawerPanel extends BasePanel {
         }
     }
 
-    void drawText(Graphics2D g2d) {
+    private void drawText(Graphics2D g2d) {
         g2d.setColor(Color.WHITE);
         g2d.setFont(panelFont);
         g2d.drawString("FPS : " + Integer.toString(fpsCounterBuffer) + " [cap : " + (int) Constants.FRAMES_PER_SEC +"]", 10, 25);
