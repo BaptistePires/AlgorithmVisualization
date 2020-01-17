@@ -38,6 +38,7 @@ public class DrawerPanel extends JPanel {
         g2d.setFont(panelFont);
         g2d.drawString("FPS : " + Integer.toString(fpsCounterBuffer), 10, 25);
         g2d.drawString("Current algorithm : " + ah.currentAlgoName, 10, 45);
+        g2d.drawString("Array's length : " + ah.size, 10, 65);
     }
     public void drawArray(Graphics2D g2d) {
         float stroke = (float) MyWindow.WINDOW_WIDTH / (float) ARR_SIZE;

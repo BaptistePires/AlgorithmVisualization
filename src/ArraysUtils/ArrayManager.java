@@ -35,11 +35,11 @@ public class ArrayManager {
         }
 
         Runnable r = () -> {
-            pause(1000);
+
             System.out.println("Shuffling array . . .");
             shuffle();
             System.out.println("Starting insertion sort . . .");
-//            insertionSort();
+            selectionSort();
             System.out.println("Insertion sort over");
             System.out.println("Shuffling array . . .");
             shuffle();
@@ -49,8 +49,8 @@ public class ArrayManager {
         };
         new Thread(r).start();
 
-    }
 
+    }
 
     public void shuffle() {
         List<ArrayValue> intList = Arrays.asList(intArray);
@@ -94,6 +94,23 @@ public class ArrayManager {
         }
     }
 
+    public void selectionSort() {
+        currentAlgoName = "Selection sort";
+        int tmpIndex;
+        for(int i = 0; i < intArray.length - 1; i++) {
+            intArray[i].setColor(Color.WHITE);
+            tmpIndex = i;
+            for (int j = i + 1; j < intArray.length; j++) {
+                if(intArray[j].getValue() < intArray[tmpIndex].getValue()) tmpIndex = j;
+            }
+            ArrayValue tmp = intArray[tmpIndex];
+            intArray[tmpIndex] = intArray[i];
+            intArray[i] = tmp;
+            intArray[tmpIndex].setColor(getColorFromInt(intArray[tmpIndex].getValue()));
+            pause(TIME_SLEEP_MILLISECOND);
+        }
+    }
+
     public void pause(int milliS) {
         try {
             Thread.sleep(milliS);
@@ -101,7 +118,6 @@ public class ArrayManager {
             e.printStackTrace();
         }
     }
-
 
     public int getArrayAccesses() {
         return arrayAccesses;
