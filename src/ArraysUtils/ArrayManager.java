@@ -1,7 +1,13 @@
 package ArraysUtils;
 
+import ArraysUtils.Sorts.BubbleSort;
+import ArraysUtils.Sorts.InsertionSort;
+import ArraysUtils.Sorts.SelectionSort;
+import ArraysUtils.Sorts.Sorter;
+import Utils.Constants;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,98 +31,44 @@ public class ArrayManager {
         min = 1;
         arrayAccesses = 0;
         currentAlgoName = "";
-        init();
+        launchAllSorts();
     }
 
-    public void init() {
+    public void launchAllSorts() {
         int i = 0;
         for (i = 0; i < size; i++) {
             intArray[i] = new ArrayValue(i, getColorFromInt(i));
         }
 
         Runnable r = () -> {
-
             System.out.println("Shuffling array . . .");
+            currentAlgoName = "Shuffling";
             shuffle();
             System.out.println("Starting insertion sort . . .");
-            selectionSort();
+            currentAlgoName = "Insertion sort";
+            new InsertionSort().sort(intArray);
             System.out.println("Insertion sort over");
             System.out.println("Shuffling array . . .");
+            currentAlgoName = "Shuffling";
             shuffle();
             System.out.println("Starting bubble sort . . .");
-            bubbleSort();
+            currentAlgoName = "Bubble sort";
+            new BubbleSort().sort(intArray);
             System.out.println("Bubble sort over");
+            currentAlgoName = "Shuffling";
+            shuffle();
+            System.out.println("Starting selection sort . . .");
+            currentAlgoName = "Selection sort";
+            new SelectionSort().sort(intArray);
+            System.out.println("Shuffling array");
         };
         new Thread(r).start();
-
-
     }
 
     public void shuffle() {
         List<ArrayValue> intList = Arrays.asList(intArray);
         Collections.shuffle(intList);
         intList.toArray(intArray);
-    }
-
-    public void insertionSort() {
-        currentAlgoName = "Insertion Sort";
-        ArrayValue saveVal;
-        int j;
-        for (int i = 1; i < intArray.length; i++) {
-            intArray[i].setColor(Color.WHITE);
-            saveVal = intArray[i];
-
-            j = i - 1;
-            intArray[j].setColor(Color.WHITE);
-            while (j >= 0 && intArray[j].getValue() > saveVal.getValue()) {
-                intArray[j + 1] = intArray[j];
-                j--;
-                intArray[j + 1].setColor(getColorFromInt(intArray[j + 1].getValue()));
-            }
-            intArray[j + 1] = saveVal;
-            pause(TIME_SLEEP_MILLISECOND);
-            intArray[j+1].setColor(getColorFromInt(intArray[j+1].getValue()));
-        }
-    }
-
-    public void bubbleSort() {
-        currentAlgoName = "Bubble Sort";
-        ArrayValue tmp;
-        for (int i = 0; i < intArray.length - 1; i++) {
-            for (int j = 0; j < intArray.length - i - 1; j++) {
-                if (intArray[j].getValue() > intArray[j + 1].getValue()) {
-                    tmp = intArray[j];
-                    intArray[j] = intArray[j + 1];
-                    intArray[j + 1] = tmp;
-                }
-            }
-            pause(TIME_SLEEP_MILLISECOND);
-        }
-    }
-
-    public void selectionSort() {
-        currentAlgoName = "Selection sort";
-        int tmpIndex;
-        for(int i = 0; i < intArray.length - 1; i++) {
-            intArray[i].setColor(Color.WHITE);
-            tmpIndex = i;
-            for (int j = i + 1; j < intArray.length; j++) {
-                if(intArray[j].getValue() < intArray[tmpIndex].getValue()) tmpIndex = j;
-            }
-            ArrayValue tmp = intArray[tmpIndex];
-            intArray[tmpIndex] = intArray[i];
-            intArray[i] = tmp;
-            intArray[tmpIndex].setColor(getColorFromInt(intArray[tmpIndex].getValue()));
-            pause(TIME_SLEEP_MILLISECOND);
-        }
-    }
-
-    public void pause(int milliS) {
-        try {
-            Thread.sleep(milliS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public int getArrayAccesses() {
@@ -127,8 +79,14 @@ public class ArrayManager {
         this.arrayAccesses = arrayAccesses;
     }
 
-    public Color getColorFromInt(int x) {
+
+    public static Color getColorFromInt(int x) {
         if (x == 0) x++;
-        return Color.getHSBColor((float) x / size , .8f, 0.8f);
+        float val = (float)x / Constants.ARRAY_SIZE;
+
+        // Remove red from the spectrum, it's used to show array accesses
+        if(val < 20f/360) val =20f/360;
+        else if(val> 340f/360f) val = 340f/360;
+        return Color.getHSBColor(val, 1f, 1f);
     }
 }
