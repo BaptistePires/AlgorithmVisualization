@@ -12,19 +12,22 @@ import java.util.List;
 
 public class ArrayManager {
 
-    public int TIME_SLEEP_MILLISECOND = 20;
+    public int TIME_SLEEP_MILLISECOND = 10;
 
     //    public static int ARRAY_SIZE = 100;
     public Integer[] intArray;
     public int size;
-
     public int max, min;
+    private int arrayAccesses;
+    public String currentAlgoName;
 
     public ArrayManager(int size) {
         this.size = size;
         intArray = new Integer[size];
         max = size;
         min = 1;
+        arrayAccesses = 0;
+        currentAlgoName = "";
         init();
     }
 
@@ -63,7 +66,7 @@ public class ArrayManager {
     }
 
     public void insertionSort() {
-
+        currentAlgoName = "Insertion Sort";
         int saveVal, j;
         for(int i = 1; i < intArray.length; i++) {
             saveVal = intArray[i];
@@ -79,6 +82,7 @@ public class ArrayManager {
     }
 
     public void bubbleSort() {
+        currentAlgoName = "Bubble Sort";
         int tmp;
         for(int i = 0; i < intArray.length - 1; i++) {
             for(int j = 0;  j < intArray.length - i -1; j++) {
@@ -101,5 +105,11 @@ public class ArrayManager {
     }
 
 
+    public int getArrayAccesses() {
+        return arrayAccesses;
+    }
 
+    public void setArrayAccesses(int arrayAccesses) {
+        this.arrayAccesses = arrayAccesses;
+    }
 }
