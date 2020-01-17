@@ -1,21 +1,18 @@
 package ArraysUtils;
 
-import UI.DrawerPanel;
-import sun.plugin2.util.ColorUtil;
-
-import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class ArrayManager {
 
-    public int TIME_SLEEP_MILLISECOND = 10;
+    public final int TIME_SLEEP_MILLISECOND = 20;
+    public final int MICRO_PAUSE = 1;
 
     //    public static int ARRAY_SIZE = 100;
-    public Integer[] intArray;
+    public ArrayValue[] intArray;
     public int size;
     public int max, min;
     private int arrayAccesses;
@@ -23,7 +20,7 @@ public class ArrayManager {
 
     public ArrayManager(int size) {
         this.size = size;
-        intArray = new Integer[size];
+        intArray = new ArrayValue[size];
         max = size;
         min = 1;
         arrayAccesses = 0;
@@ -33,8 +30,8 @@ public class ArrayManager {
 
     public void init() {
         int i = 0;
-        for (i = 0; i <size; i++) {
-            intArray[i] = i+1;
+        for (i = 0; i < size; i++) {
+            intArray[i] = new ArrayValue(i, getColorFromInt(i));
         }
 
         Runnable r = () -> {
@@ -42,7 +39,7 @@ public class ArrayManager {
             System.out.println("Shuffling array . . .");
             shuffle();
             System.out.println("Starting insertion sort . . .");
-            insertionSort();
+//            insertionSort();
             System.out.println("Insertion sort over");
             System.out.println("Shuffling array . . .");
             shuffle();
@@ -54,45 +51,46 @@ public class ArrayManager {
 
     }
 
-    public Color getColorFromInt(int x) {
-        if(x==0)x++;
-        return Color.getHSBColor((float) x / size, 1.0f, 1.0f);
-    }
 
     public void shuffle() {
-        List<Integer> intList = Arrays.asList(intArray);
+        List<ArrayValue> intList = Arrays.asList(intArray);
         Collections.shuffle(intList);
         intList.toArray(intArray);
     }
 
     public void insertionSort() {
         currentAlgoName = "Insertion Sort";
-        int saveVal, j;
-        for(int i = 1; i < intArray.length; i++) {
+        ArrayValue saveVal;
+        int j;
+        for (int i = 1; i < intArray.length; i++) {
+            intArray[i].setColor(Color.WHITE);
             saveVal = intArray[i];
-            j = i - 1;
 
-            while(j >= 0 && intArray[j] > saveVal) {
+            j = i - 1;
+            intArray[j].setColor(Color.WHITE);
+            while (j >= 0 && intArray[j].getValue() > saveVal.getValue()) {
                 intArray[j + 1] = intArray[j];
                 j--;
+                intArray[j + 1].setColor(getColorFromInt(intArray[j + 1].getValue()));
             }
             intArray[j + 1] = saveVal;
             pause(TIME_SLEEP_MILLISECOND);
+            intArray[j+1].setColor(getColorFromInt(intArray[j+1].getValue()));
         }
     }
 
     public void bubbleSort() {
         currentAlgoName = "Bubble Sort";
-        int tmp;
-        for(int i = 0; i < intArray.length - 1; i++) {
-            for(int j = 0;  j < intArray.length - i -1; j++) {
-                if(intArray[j] > intArray[j+1]){
+        ArrayValue tmp;
+        for (int i = 0; i < intArray.length - 1; i++) {
+            for (int j = 0; j < intArray.length - i - 1; j++) {
+                if (intArray[j].getValue() > intArray[j + 1].getValue()) {
                     tmp = intArray[j];
-                    intArray[j] = intArray[j+1];
-                    intArray[j+1] = tmp;
+                    intArray[j] = intArray[j + 1];
+                    intArray[j + 1] = tmp;
                 }
             }
-            pause(10);
+            pause(TIME_SLEEP_MILLISECOND);
         }
     }
 
@@ -111,5 +109,10 @@ public class ArrayManager {
 
     public void setArrayAccesses(int arrayAccesses) {
         this.arrayAccesses = arrayAccesses;
+    }
+
+    public Color getColorFromInt(int x) {
+        if (x == 0) x++;
+        return Color.getHSBColor((float) x / size , .8f, 0.8f);
     }
 }

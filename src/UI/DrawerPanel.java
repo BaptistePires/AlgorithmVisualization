@@ -48,9 +48,9 @@ public class DrawerPanel extends JPanel {
             x1 = Math.min(i * (int) stroke, MyWindow.WINDOW_WIDTH);
             y1 = MyWindow.WINDOW_HEIGHT;
             x2 = Math.min(i * (int) stroke, MyWindow.WINDOW_WIDTH);
-            float hRatio = (float) ah.intArray[i] / (float) ah.max;
+            float hRatio = (float) ah.intArray[i].getValue() / (float) ah.max;
             y2 = MyWindow.WINDOW_HEIGHT - (int) (MyWindow.WINDOW_HEIGHT * hRatio);
-            g2d.setColor(ah.getColorFromInt(ah.intArray[i]));
+            g2d.setColor(ah.intArray[i].getColor());
             g2d.drawLine(x1, y1, x2, y2);
         }
     }
